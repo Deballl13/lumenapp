@@ -22,6 +22,11 @@ $router->get('/customer', function () use ($router) {
     return response()->json($results);
 });
 
+$router->get('/toko', function () use ($router) {
+    $results = app('db')->select("SELECT * FROM toko");
+    return response()->json($results);
+});
+
 $router->post('/register', 'UserController@register');
 $router->post('/login','AuthController@login');
 
