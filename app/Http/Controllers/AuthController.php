@@ -7,6 +7,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller {
+
+    public function register (Request $request) {
+        $customer = new User();
+        $customer->nama = trim($request->nama);
+        $customer->email = trim($request->email);
+        $customer->no_hp = trim($request->no_hp);
+        $customer->password = Hash::make($request->password);
+        $customer->save();
+
+        return response()->json(['message' => 'Pendaftaran berhasil']);
+    }
     
     public function login(Request $request) {
         $email = $request->email;

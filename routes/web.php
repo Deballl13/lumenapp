@@ -24,7 +24,7 @@ $router->get('/', function () use ($router) {
 
 // $router->post('/register', 'UserController@register');
 // $router->post('/login','AuthController@login');
-$router->post('/register','CustomerController@register');
+$router->post('/register','AuthController@register');
 $router->post('/login','AuthController@login');
 
 
