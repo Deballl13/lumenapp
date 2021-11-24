@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Customer;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -14,7 +13,7 @@ class AuthController extends Controller {
         $password = $request->password;
 
         // cek email inputan dengan email di database
-        $customer = Customer::where('email', $email)->first();
+        $customer = User::where('email', $email)->first();
         if (!$customer) {
             return response()->json(['message' => 'Username/Password salah'], 401);
         }
@@ -31,11 +30,11 @@ class AuthController extends Controller {
             'token' => $generateToken
         ]);
 
-        return response()->json(['customer' => $customer, 'message' => 'Login berhasil']);
+        return response()->json(['user' => $customer, 'message' => 'Login berhasil']);
     }
 
     public function logout(Request $request) {
-        $customer = Customer::where('token', $request->token)->first();
+        $customer = User::where('token', $request->token)->first();
         $customer->token = null;
         $customer->save();
 

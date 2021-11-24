@@ -9,11 +9,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Lumen\Auth\Authorizable;
 
-class Customer extends Model implements AuthenticatableContract, AuthorizableContract {
+class User extends Model implements AuthenticatableContract, AuthorizableContract {
 
     use Authenticatable, Authorizable, HasFactory;
     
-    protected $table = 'customer';
     protected $fillable = ['nama', 'email', 'no_hp', 'password', 'token'];
     public $timestamps = false;
     
