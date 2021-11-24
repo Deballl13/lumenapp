@@ -13,14 +13,9 @@
 |
 */
 
-// $router->get('/', function () use ($router) {
-//     return ["Hello Hai..!!!"];
-// });
-
-// $router->get('/customer', function () use ($router) {
-//     $results = app('db')->select("SELECT * FROM customer");
-//     return response()->json($results);
-// });
+$router->get('/', function () use ($router) {
+    return ["Hello Hai..!!!"];
+});
 
 // $router->get('/toko', function () use ($router) {
 //     $results = app('db')->select("SELECT * FROM toko");
@@ -29,9 +24,10 @@
 
 // $router->post('/register', 'UserController@register');
 // $router->post('/login','AuthController@login');
-$router->post('/testing','UserController@test');
+$router->post('/register','CustomerController@register');
+$router->post('/login','AuthController@login');
 
 
-// $router->group(['middleware' => 'auth'], function() use ($router){
-//     $router->post('/logout', 'AuthController@logout');
-// });
+$router->group(['middleware' => 'auth'], function() use ($router){
+    $router->post('/logout', 'AuthController@logout');
+});
