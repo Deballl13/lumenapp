@@ -6,10 +6,9 @@ use App\Models\User;
 use Hash;
 use Illuminate\Http\Request;
 
-class AuthController extends Controller
-{
-    public function login(Request $request)
-    {
+class AuthController extends Controller {
+    
+    public function login(Request $request) {
         $this->validate($request, [
             'email' => 'required|email',
             'password' => 'required|min:6'
@@ -36,7 +35,7 @@ class AuthController extends Controller
         return response()->json($user);
     }
 
-    public function logout(Request $request){
+    public function logout(Request $request) {
         $user = \Auth::user();
         $user->token = null;
         $user->save();
