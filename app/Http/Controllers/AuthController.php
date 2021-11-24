@@ -26,16 +26,16 @@ class AuthController extends Controller {
         }
 
         // generate token
-        // $generateToken = bin2hex(random_bytes(40));
-        // $user->update([
-        //     'token' => $generateToken
-        // ]);
+        $generateToken = bin2hex(random_bytes(40));
+        $customer->update([
+            'token' => $generateToken
+        ]);
 
         return response()->json(['customer' => $customer, 'message' => 'Login berhasil']);
     }
 
-    public function logout() {
-        $customer = new Customer();
+    public function logout(Request $request) {
+        $customer = Customer::where('token', $request->token)->first();
         $customer->token = null;
         $customer->save();
 
