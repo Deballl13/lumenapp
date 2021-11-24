@@ -14,30 +14,30 @@ class AuthController extends Controller {
         $password = $request->password;
 
         // cek email inputan dengan email di database
-        $user = User::where('email', $email)->get();
-        if (!$user) {
+        $customer = Customer::where('email', $email)->first();
+        if (!$customer) {
             return response()->json(['message' => 'Username/Password salah'], 401);
         }
 
         // cek password inputan dengan password di database
-        $isValidPassword = Hash::check($password, $user->password);
+        $isValidPassword = Hash::check($password, $customer->password);
         if (!$isValidPassword) {
             return response()->json(['message' => 'Username/Password salah'], 401);
         }
 
         // generate token
-        $generateToken = bin2hex(random_bytes(40));
-        $user->update([
-            'token' => $generateToken
-        ]);
+        // $generateToken = bin2hex(random_bytes(40));
+        // $user->update([
+        //     'token' => $generateToken
+        // ]);
 
-        return response()->json($user);
+        return response()->json(['customer' => $customer, 'message' => 'Login berhasil']);
     }
 
     public function logout() {
-        $user = new Customer();
-        $user->token = null;
-        $user->save();
+        $customer = new Customer();
+        $customer->token = null;
+        $customer->save();
 
         return response()->json(['message' => 'Logout berhasil']);
     }
