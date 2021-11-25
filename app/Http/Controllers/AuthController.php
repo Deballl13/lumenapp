@@ -44,8 +44,10 @@ class AuthController extends Controller {
         return response()->json(['user' => $customer, 'message' => 'Login berhasil']);
     }
 
-    public function logout(Request $request) {
-        $customer = User::where('token', $request->token)->first();
+    public function logout() {
+        $user_token = auth()->guard('api')->user()->token;
+
+        $customer = User::where('token', $user_token)->first();
         $customer->token = null;
         $customer->save();
 
