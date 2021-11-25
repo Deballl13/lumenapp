@@ -16,7 +16,7 @@ class AuthController extends Controller {
         $customer->password = Hash::make($request->password);
         $customer->save();
 
-        return response()->json(['user' => null, 'message' => 'Pendaftaran berhasil']);
+        return response()->json(['message' => 'Pendaftaran berhasil']);
     }
     
     public function login(Request $request) {
@@ -26,7 +26,7 @@ class AuthController extends Controller {
         // cek email inputan dengan email di database
         $customer = User::where('email', $email)->first();
         if (!$customer) {
-            return response()->json(['user' => null, 'message' => 'Username/Password salah'], 401);
+            return response()->json(['message' => 'Username/Password salah'], 401);
         }
 
         // cek password inputan dengan password di database
