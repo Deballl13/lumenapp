@@ -26,13 +26,13 @@ class AuthController extends Controller {
         // cek email inputan dengan email di database
         $customer = User::where('email', $email)->first();
         if (!$customer) {
-            return response()->json(['message' => 'Email/Password salah'], 401);
+            return response()->json(['user' => null, 'message' => 'Email/Password salah'], 401);
         }
 
         // cek password inputan dengan password di database
         $isValidPassword = Hash::check($password, $customer->password);
         if (!$isValidPassword) {
-            return response()->json(['message' => 'Email/Password salah'], 401);
+            return response()->json(['user' => null, 'message' => 'Email/Password salah'], 401);
         }
 
         // generate token
