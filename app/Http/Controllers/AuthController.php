@@ -45,7 +45,7 @@ class AuthController extends Controller {
     }
 
     public function logout(Request $request) {
-        $user_token = $request->header('token');
+        $user_token = $request->header('Authorization');
 
         $customer = User::where('token', $user_token)->first();
         $customer->token = null;
