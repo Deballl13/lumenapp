@@ -14,20 +14,14 @@
 */
 
 $router->get('/', function () use ($router) {
-    return ["Hello Hai..!!!"];
+    return ["Nongskuy"];
 });
 
-// $router->get('/toko', function () use ($router) {
-//     $results = app('db')->select("SELECT * FROM toko");
-//     return response()->json($results);
-// });
-
-// $router->post('/register', 'UserController@register');
-// $router->post('/login','AuthController@login');
 $router->post('/register','AuthController@register');
 $router->post('/login','AuthController@login');
 
-
 $router->group(['middleware' => 'auth'], function() use ($router){
     $router->post('/logout', 'AuthController@logout');
+    $router->put('/ubahpassword', 'ProfilController@ubahPassword');
+    $router->put('/ubahprofil', 'ProfilController@ubahProfil');
 });
