@@ -33,6 +33,6 @@ class ProfilController extends Controller {
             return response()->json(['message' => 'Ubah profil berhasil']);
         }
 
-        return response()->json(['message' => 'Unauthorized'], 401);
+        return response()->json(['message' => 'Unauthorized'], 403);
     }
 }
