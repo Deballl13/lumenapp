@@ -12,26 +12,27 @@ class ProfilController extends Controller {
         $user_token = $request->header('Authorization');
 
         if($user_token !== null){
-            $user = User::where('token', $user_token)->first();
-            $user->password = Hash::make($request->password);
-            $user->save(); 
+            User::where('token', $user_token)->update([
+                'password' => Hash::make(htmlspecialchars($request->password))
+            ]); 
 
             return response()->json(['message' => 'Ubah password berhasil']);
         }
-        return response()->json(['message' => 'Ubah password gagal'], 401);
+        return response()->json(['message' => 'Unauthorized'], 403);
     }
 
     public function ubahProfil(Request $request){
         $user_token = $request->header('Authorization');
 
         if($user_token !== null){
-            $user = User::where('token', $user_token)->first();
-            $user->nama = trim($request->nama);
-            $user->no_hp = trim($request->no_hp);
-            $user->save(); 
+            User::where('token', $user_token)->update([
+                'nama' => htmlspecialchars(trim($request->nama)),
+                'no_hp' => htmlspecialchars(trim($request->no_hp))
+            ]);
 
             return response()->json(['message' => 'Ubah profil berhasil']);
         }
-        return response()->json(['message' => 'Ubah profil gagal'], 401);
+
+        return response()->json(['message' => 'Unauthorized'], 401);
     }
 }

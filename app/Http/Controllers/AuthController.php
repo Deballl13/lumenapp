@@ -9,30 +9,28 @@ use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller {
 
     public function register (Request $request) {
-        $customer = new User();
-        $customer->nama = trim($request->nama);
-        $customer->email = trim($request->email);
-        $customer->no_hp = trim($request->no_hp);
-        $customer->password = Hash::make($request->password);
-        $customer->save();
+        User::create([
+            'nama' => htmlspecialchars(trim($request->nama)),
+            'email' => htmlspecialchars(trim($request->email)),
+            'no_hp' => htmlspecialchars(trim($request->no_hp)),
+            'password' => Hash::make(htmlspecialchars($request->password))
+        ]);
 
         return response()->json(['message' => 'Pendaftaran berhasil']);
     }
     
     public function login(Request $request) {
-        $email = $request->email;
-        $password = $request->password;
+        $email = htmlspecialchars(trim($request->email));
+        $password = htmlspecialchars($request->password);
 
-        // cek email inputan dengan email di database
+        // cek email dan password inputan dengan email di database
         $customer = User::where('email', $email)->first();
-        if (!$customer) {
+        if (!$customer || !Hash::check($password, $customer->password)) {
             return response()->json(['message' => 'Email/Password salah'], 400);
         }
 
-        // cek password inputan dengan password di database
-        $isValidPassword = Hash::check($password, $customer->password);
-        if (!$isValidPassword) {
-            return response()->json(['message' => 'Email/Password salah'], 400);
+        if($customer->token !== null){
+            return response()->json(['message' => 'Anda telah terhubung diperangkat lain'], 403);
         }
 
         // generate token
@@ -47,9 +45,9 @@ class AuthController extends Controller {
     public function logout(Request $request) {
         $user_token = $request->header('Authorization');
 
-        $customer = User::where('token', $user_token)->first();
-        $customer->token = null;
-        $customer->save();
+        User::where('token', $user_token)->update([
+            'token' => null
+        ]);
 
         return response()->json(['message' => 'Logout berhasil']);
     }
