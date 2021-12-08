@@ -26,4 +26,5 @@ $router->group(['middleware' => 'auth'], function() use ($router){
     $router->put('/ubahprofil', 'ProfilController@ubahProfil');
 
     $router->get('/promo', 'PromoController@index');
+    $router->get('/pesan/riwayat', 'PesanController@riwayat');
 });

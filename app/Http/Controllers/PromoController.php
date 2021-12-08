@@ -23,7 +23,7 @@ class PromoController extends Controller {
                             ->get();            
 
             foreach($toko as $t):                
-                $t->menu = Menu::select('menu.id as id_menu', 'menu.nama_menu', 'menu.harga', 'menu.gambar', 'promo.persentase', 'jenis_promo.nama_jenis_promo')
+                $t->menu = Menu::select('menu.id as id_menu', 'menu.nama_menu', 'menu.harga', 'menu.gambar', 'promo.persentase', 'jenis_promo.nama_jenis_promo as jenis_promo')
                             ->join('promo', 'menu.id', '=', 'promo.id_menu')
                             ->join('jenis_promo', 'promo.id_jenis_promo', '=', 'jenis_promo.id')
                             ->where('menu.id_toko', $t->id_toko)
