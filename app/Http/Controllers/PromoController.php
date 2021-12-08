@@ -20,12 +20,8 @@ class PromoController extends Controller {
                             ->whereDate('promo.tanggal_mulai', '<=', date('Y-m-d'))
                             ->whereRaw("promo.tanggal_mulai + (promo.durasi-1)*INTERVAL '1 day' >= ?", [date('Y-m-d')])
                             ->distinct()
-                            ->get();
+                            ->get();            
 
-            $response = new stdClass();
-            $response->tanggal = date('d-m-Y');
-            $response->jumlah = $toko->count();            
-    
             foreach($toko as $t):                
                 $t->menu = Menu::select('menu.id as id_menu', 'menu.nama_menu', 'menu.harga', 'menu.gambar', 'promo.persentase', 'jenis_promo.nama_jenis_promo')
                             ->join('promo', 'menu.id', '=', 'promo.id_menu')
@@ -36,6 +32,8 @@ class PromoController extends Controller {
                             ->get();
             endforeach;
 
+            $response = new stdClass();
+            $response->tanggal = date('d-m-Y');
             $response->promo = $toko;
             return response()->json($response);
         }
