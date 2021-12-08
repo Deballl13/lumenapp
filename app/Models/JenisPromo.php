@@ -10,7 +10,7 @@ class JenisPromo extends Model {
     use HasFactory;
     protected $table = 'jenis_promo';
     protected $fillable = 'nama';
-    protected $timestamps = false;
+    public $timestamps = false;
 
     public function promo(){
         return $this->hasMany(JenisPromo::class);

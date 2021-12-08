@@ -10,7 +10,7 @@ class Menu extends Model {
     use HasFactory;
     protected $table = 'menu';
     protected $fillable = ['id_toko', 'nama', 'harga', 'gambar', 'status'];
-    protected $timestamps = false;
+    public $timestamps = false;
 
     public function toko(){
         return $this->belongsTo(Toko::class);

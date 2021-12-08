@@ -10,7 +10,7 @@ class Review extends Model {
     use HasFactory;
     protected $table = 'review';
     protected $fillable = ['id_menu', 'id_jenis_promo', 'persentase', 'tanggal_mulai', 'durasi'];
-    protected $timestamps = false;
+    public $timestamps = false;
 
     public function user(){
         return $this->belongsTo(User::class);

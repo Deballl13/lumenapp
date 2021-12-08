@@ -16,8 +16,9 @@ class ProfilController extends Controller {
                 'password' => Hash::make(htmlspecialchars($request->password))
             ]); 
 
-            return response()->json(['message' => 'Ubah password berhasil']);
+            return response()->json(['message' => 'Password berhasil diubah']);
         }
+        
         return response()->json(['message' => 'Unauthorized'], 403);
     }
 
@@ -30,7 +31,7 @@ class ProfilController extends Controller {
                 'no_hp' => htmlspecialchars(trim($request->no_hp))
             ]);
 
-            return response()->json(['message' => 'Ubah profil berhasil']);
+            return response()->json(['message' => 'Profil berhasil diubah']);
         }
 
         return response()->json(['message' => 'Unauthorized'], 403);

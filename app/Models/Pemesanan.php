@@ -10,7 +10,7 @@ class Pemesanan extends Model {
     use HasFactory;
     protected $table = 'pemesanan';
     protected $fillable = ['id_user', 'id_detail_metode_bayar_toko', 'tanggal', 'waktu', 'jumlah_kursi', 'dp', 'status'];
-    protected $timestamps = false; 
+    public $timestamps = false; 
 
     public function user(){
         return $this->belongsTo(User::class);

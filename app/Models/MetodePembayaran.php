@@ -10,7 +10,7 @@ class MetodePembayaran extends Model {
     use HasFactory;
     protected $table = 'metode_pembayaran';
     protected $fillable = 'nama';
-    protected $timestamps = false;
+    public $timestamps = false;
 
     public function metodePembayaranToko(){
         return $this->hasMany(MetodePembayaranToko::class);

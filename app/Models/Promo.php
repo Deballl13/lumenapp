@@ -10,7 +10,7 @@ class Promo extends Model {
     use HasFactory;
     protected $table = 'promo';
     protected $fillable = ['id_menu', 'id_jenis_promo', 'persentase', 'tanggal_mulai', 'durasi'];
-    protected $timestamps = false;
+    public $timestamps = false;
 
     public function jenisPromo(){
         return $this->belongsTo(JenisPromo::class);

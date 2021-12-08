@@ -10,7 +10,7 @@ class MetodePembayaranToko extends Model {
     use HasFactory;
     protected $table = 'metode_pembayaran_toko';
     protected $fillable = ['id_toko', 'id_metode_bayar'];
-    protected $timestamps = false;
+    public $timestamps = false;
 
     public function metodePembayaran(){
         return $this->belongsTo(MetodePembayaran::class);

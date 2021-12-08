@@ -10,7 +10,7 @@ class Toko extends Model {
     use HasFactory;
     protected $table = 'toko';
     protected $fillable = ['gambar', 'nama', 'alamat', 'tipe', 'no_hp', 'ig', 'web', 'hari_ops', 'fasilitas'];
-    protected $timestamps = false;
+    public $timestamps = false;
 
     public function menu(){
         return $this->hasMany(Menu::class);

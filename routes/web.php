@@ -24,4 +24,6 @@ $router->group(['middleware' => 'auth'], function() use ($router){
     $router->post('/logout', 'AuthController@logout');
     $router->put('/ubahpassword', 'ProfilController@ubahPassword');
     $router->put('/ubahprofil', 'ProfilController@ubahProfil');
+
+    $router->get('/promo', 'PromoController@index');
 });
