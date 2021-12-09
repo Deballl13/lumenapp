@@ -14,6 +14,7 @@ class PromoController extends Controller {
         $user_token = $request->header('Authorization');
         
         if($user_token !== null){
+            // ambil data toko
             $toko = Toko::select('toko.id as id_toko', 'nama_toko')
                             ->join('menu', 'toko.id', '=', 'menu.id_toko')
                             ->join('promo', 'menu.id', '=', 'promo.id_menu')
@@ -22,16 +23,19 @@ class PromoController extends Controller {
                             ->distinct()
                             ->get();            
 
-            foreach($toko as $t):                
-                $t->menu = Menu::select('menu.id as id_menu', 'menu.nama_menu', 'menu.harga', 'menu.gambar', 'promo.persentase', 'jenis_promo.nama_jenis_promo')
-                            ->join('promo', 'menu.id', '=', 'promo.id_menu')
-                            ->join('jenis_promo', 'promo.id_jenis_promo', '=', 'jenis_promo.id')
-                            ->where('menu.id_toko', $t->id_toko)
-                            ->whereDate('promo.tanggal_mulai', '<=', date('Y-m-d'))
-                            ->whereRaw("promo.tanggal_mulai + (promo.durasi-1)*INTERVAL '1 day' >= ?", [date('Y-m-d')])
-                            ->get();
+            foreach($toko as $t):
+                // ambil data menu setiap toko dan insert ke properti menu
+                $t->menu = Menu::select('menu.id as id_menu', 'menu.nama_menu', 'menu.harga', 'menu.gambar', 
+                                        'promo.persentase', 'jenis_promo.nama_jenis_promo as jenis_promo')
+                                ->join('promo', 'menu.id', '=', 'promo.id_menu')
+                                ->join('jenis_promo', 'promo.id_jenis_promo', '=', 'jenis_promo.id')
+                                ->where('menu.id_toko', $t->id_toko)
+                                ->whereDate('promo.tanggal_mulai', '<=', date('Y-m-d'))
+                                ->whereRaw("promo.tanggal_mulai + (promo.durasi-1)*INTERVAL '1 day' >= ?", [date('Y-m-d')])
+                                ->get();
             endforeach;
 
+            // konfigurasi response api
             $response = new stdClass();
             $response->tanggal = date('d-m-Y');
             $response->promo = $toko;

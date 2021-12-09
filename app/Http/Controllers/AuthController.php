@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller {
 
     public function register (Request $request) {
+        // insert data
         User::create([
             'nama' => htmlspecialchars(trim($request->nama)),
             'email' => htmlspecialchars(trim($request->email)),
@@ -29,6 +30,7 @@ class AuthController extends Controller {
             return response()->json(['message' => 'Email/Password salah'], 400);
         }
 
+        // cek token null atau tidak
         if($customer->token !== null){
             return response()->json(['message' => 'Anda telah terhubung diperangkat lain'], 403);
         }
@@ -45,6 +47,7 @@ class AuthController extends Controller {
     public function logout(Request $request) {
         $user_token = $request->header('Authorization');
 
+        // update token
         User::where('token', $user_token)->update([
             'token' => null
         ]);
