@@ -17,11 +17,15 @@ $router->get('/', function () use ($router) {
     return ["Nongskuy"];
 });
 
+// autentikasi akun
 $router->post('/register','AuthController@register');
 $router->post('/login','AuthController@login');
 
+// menu populer
+$router->get('/menu/populer', 'MenuPopulerController@index');
+
 $router->group(['middleware' => 'auth'], function() use ($router){
-    // autentikasi akun
+    // konfigruasi akun
     $router->post('/logout', 'AuthController@logout');
     $router->put('/ubahpassword', 'ProfilController@ubahPassword');
     $router->put('/ubahprofil', 'ProfilController@ubahProfil');
@@ -30,5 +34,7 @@ $router->group(['middleware' => 'auth'], function() use ($router){
     $router->get('/promo', 'PromoController@index');
 
     // pemesanan
-    $router->get('/pesan/riwayat', 'PesanController@riwayat');
+    $router->group(['prefix' => '/pesan'], function() use ($router){
+        $router->get('/riwayat', 'PesanController@riwayat');
+    });
 });

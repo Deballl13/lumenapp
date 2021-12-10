@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller {
@@ -25,7 +26,7 @@ class AuthController extends Controller {
         $password = htmlspecialchars($request->password);
 
         // cek email dan password inputan dengan email di database
-        $customer = User::where('email', $email)->first();
+        $customer = User::whereEmail($email)->first();
         if (!$customer || !Hash::check($password, $customer->password)) {
             return response()->json(['message' => 'Email/Password salah'], 400);
         }
@@ -44,14 +45,11 @@ class AuthController extends Controller {
         return response()->json(['user' => $customer, 'message' => 'Login berhasil']);
     }
 
-    public function logout(Request $request) {
-        $user_token = $request->header('Authorization');
-
+    public function logout() {
         // update token
-        User::where('token', $user_token)->update([
+        User::whereToken(auth()->guard('api')->user()->token)->update([
             'token' => null
         ]);
-
         return response()->json(['message' => 'Logout berhasil']);
     }
 }
