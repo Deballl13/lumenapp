@@ -25,7 +25,7 @@ $router->post('login','AuthController@login');
 $router->group(['prefix' => 'toko'], function() use ($router){
     $router->get('all', 'TokoController@index');
     $router->get('populer', 'TokoController@populer');
-    $router->get('{id}', 'TokoController@show');
+    // $router->get('{id}', 'TokoController@show');
 });
 
 $router->group(['middleware' => 'auth'], function() use ($router){
