@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\IntegerCast;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,6 +12,9 @@ class Toko extends Model {
     protected $table = 'toko';
     protected $fillable = ['gambar', 'nama', 'alamat', 'tipe', 'no_hp', 'ig', 'web', 'hari_ops', 'fasilitas'];
     public $timestamps = false;
+    protected $casts = [
+        'id' => IntegerCast::class,
+    ];
 
     public function menu(){
         return $this->hasMany(Menu::class);

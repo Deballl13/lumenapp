@@ -22,7 +22,11 @@ $router->post('/register','AuthController@register');
 $router->post('/login','AuthController@login');
 
 // menu populer
-$router->get('/menu/populer', 'MenuPopulerController@index');
+$router->group(['prefix' => '/toko'], function() use ($router){
+    $router->get('/', 'TokoController@index');
+    $router->get('/populer', 'TokoController@populer');
+    $router->get('/{id}', 'TokoController@show');
+});
 
 $router->group(['middleware' => 'auth'], function() use ($router){
     // konfigruasi akun

@@ -20,7 +20,7 @@ class PesanController extends Controller {
                             ->join('metode_pembayaran', 'metode_pembayaran.id', '=', 
                                     'metode_pembayaran_toko.id_metode_bayar')
                             ->join('toko', 'metode_pembayaran_toko.id_toko', '=', 'toko.id')
-                            ->where('pemesanan.id_user', auth()->guard('api')->user()->id)
+                            ->whereIdUser(auth()->guard('api')->user()->id)
                             ->orderBy('pemesanan.no_faktur', 'desc')
                             ->get();
 

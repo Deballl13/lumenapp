@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller {
@@ -37,9 +36,8 @@ class AuthController extends Controller {
         }
 
         // generate token
-        $generateToken = bin2hex(random_bytes(40));
         $customer->update([
-            'token' => $generateToken
+            'token' => bin2hex(random_bytes(40))
         ]);
 
         return response()->json(['user' => $customer, 'message' => 'Login berhasil']);
