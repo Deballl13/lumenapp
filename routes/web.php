@@ -22,11 +22,9 @@ $router->post('register','AuthController@register');
 $router->post('login','AuthController@login');
 
 // menu populer
-$router->group(['prefix' => 'toko'], function() use ($router){
-    $router->get('all/get', 'TokoController@index');
-    $router->get('populer', 'TokoController@populer');
-    // $router->get('{id}', 'TokoController@show');
-});
+$router->get('toko', 'TokoController@index');
+$router->get('toko/populer', 'TokoController@populer');
+$router->get('toko/{id}', 'TokoController@show');
 
 $router->group(['middleware' => 'auth'], function() use ($router){
     // konfigruasi akun
@@ -38,7 +36,5 @@ $router->group(['middleware' => 'auth'], function() use ($router){
     $router->get('/promo', 'PromoController@index');
 
     // pemesanan
-    $router->group(['prefix' => 'pesan'], function() use ($router){
-        $router->get('riwayat', 'PesanController@riwayat');
-    });
+    $router->get('pesan/riwayat', 'PesanController@riwayat');
 });
