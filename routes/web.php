@@ -18,27 +18,27 @@ $router->get('/', function () use ($router) {
 });
 
 // autentikasi akun
-$router->post('/register','AuthController@register');
-$router->post('/login','AuthController@login');
+$router->post('register','AuthController@register');
+$router->post('login','AuthController@login');
 
 // menu populer
-$router->group(['prefix' => '/toko'], function() use ($router){
-    $router->get('/', 'TokoController@index');
-    $router->get('/populer', 'TokoController@populer');
-    $router->get('/{id}', 'TokoController@show');
+$router->group(['prefix' => 'toko'], function() use ($router){
+    $router->get('', 'TokoController@index');
+    $router->get('populer', 'TokoController@populer');
+    $router->get('{id}', 'TokoController@show');
 });
 
 $router->group(['middleware' => 'auth'], function() use ($router){
     // konfigruasi akun
-    $router->post('/logout', 'AuthController@logout');
-    $router->put('/ubahpassword', 'ProfilController@ubahPassword');
-    $router->put('/ubahprofil', 'ProfilController@ubahProfil');
+    $router->post('logout', 'AuthController@logout');
+    $router->put('ubahpassword', 'ProfilController@ubahPassword');
+    $router->put('ubahprofil', 'ProfilController@ubahProfil');
 
     // promo
     $router->get('/promo', 'PromoController@index');
 
     // pemesanan
-    $router->group(['prefix' => '/pesan'], function() use ($router){
-        $router->get('/riwayat', 'PesanController@riwayat');
+    $router->group(['prefix' => 'pesan'], function() use ($router){
+        $router->get('riwayat', 'PesanController@riwayat');
     });
 });
