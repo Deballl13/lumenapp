@@ -23,7 +23,7 @@ $router->post('login','AuthController@login');
 
 // menu populer
 $router->group(['prefix' => 'toko'], function() use ($router){
-    $router->get('all', 'TokoController@index');
+    $router->get('all/get', 'TokoController@index');
     $router->get('populer', 'TokoController@populer');
     // $router->get('{id}', 'TokoController@show');
 });
