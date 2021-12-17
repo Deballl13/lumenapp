@@ -10,12 +10,12 @@ use stdClass;
 class TokoController extends Controller {
     
     public function index(){
-        $populer = Toko::all();
+        $toko = Toko::all();
 
         $response = new stdClass();
         $response->tanggal = date('d-m-Y');
-        $response->jumlah = $populer->count();
-        $response->populer = $populer; 
+        $response->jumlah = $toko->count();
+        $response->toko = $toko; 
 
         return response()->json($response);
     }
@@ -31,7 +31,7 @@ class TokoController extends Controller {
         $response = new stdClass();
         $response->tanggal = date('d-m-Y');
         $response->jumlah = $populer->count();
-        $response->populer = $populer; 
+        $response->toko_populer = $populer; 
 
         return response()->json($response);
     }
