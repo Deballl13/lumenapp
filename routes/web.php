@@ -25,6 +25,7 @@ $router->post('login','AuthController@login');
 $router->get('toko', 'TokoController@index');
 $router->get('toko/populer', 'TokoController@populer');
 $router->get('toko/{id}', 'TokoController@show');
+$router->post('toko/search', 'TokoController@search');
 
 $router->group(['middleware' => 'auth'], function() use ($router){
     // konfigruasi akun

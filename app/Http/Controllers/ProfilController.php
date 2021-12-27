@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 class ProfilController extends Controller {
     
     public function ubahPassword(Request $request){
+        // update password
         User::whereToken(auth()->guard('api')->user()->token)->update([
             'password' => Hash::make(htmlspecialchars($request->password))
         ]); 
@@ -17,6 +18,7 @@ class ProfilController extends Controller {
     }
 
     public function ubahProfil(Request $request){
+        // update data profil
         User::whereToken(auth()->guard('api')->user()->token)->update([
             'nama' => htmlspecialchars(trim($request->nama)),
             'no_hp' => htmlspecialchars(trim($request->no_hp))
