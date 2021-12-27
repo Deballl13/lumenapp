@@ -10,7 +10,7 @@ class Toko extends Model {
 
     use HasFactory;
     protected $table = 'toko';
-    protected $fillable = ['gambar', 'nama', 'alamat', 'tipe', 'no_hp', 'ig', 'web', 'hari_ops', 'fasilitas'];
+    protected $fillable = ['gambar', 'nama', 'alamat', 'tipe', 'no_hp', 'ig', 'web', 'hari_ops', 'fasilitas', 'lokasi'];
     public $timestamps = false;
     protected $casts = [
         'id' => IntegerCast::class,

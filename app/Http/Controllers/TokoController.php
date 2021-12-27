@@ -10,7 +10,9 @@ use stdClass;
 class TokoController extends Controller {
     
     public function index(){
-        $toko = Toko::all();
+        $toko = Toko::select('id', 'gambar', 'nama_toko', 'alamat', 'tipe', 'no_hp', 'ig', 'web', 'hari_ops', 'fasilitas',
+                        Toko::raw('ST_Y(lokasi::geometry) as latitude'), Toko::raw('ST_X(lokasi::geometry) as longitude'))
+                    ->get();
 
         $response = new stdClass();
         $response->tanggal = date('d-m-Y');
@@ -22,7 +24,7 @@ class TokoController extends Controller {
 
     public function populer(){
         $populer = Review::select('toko.id', 'toko.gambar', 'toko.nama_toko', 'toko.alamat', 
-                                'toko.tipe', Review::raw('avg(review.rating) as rating'))
+                                'toko.tipe', Review::raw('avg(review.rating) as rating'), Toko::raw('ST_Y(lokasi::geometry) as latitude'), Toko::raw('ST_X(lokasi::geometry) as longitude'))
                         ->rightJoin('toko', 'review.id_toko', '=', 'toko.id')
                         ->groupBy('toko.id')
                         ->orderByRaw('rating DESC NULLS LAST')
@@ -37,7 +39,10 @@ class TokoController extends Controller {
     }
 
     public function show($id){
-        $toko = Toko::find($id);
+        $toko = Toko::select('id', 'gambar', 'nama_toko', 'alamat', 'tipe', 'no_hp', 'ig', 'web', 'hari_ops', 'fasilitas',
+                        Toko::raw('ST_Y(lokasi::geometry) as latitude'), Toko::raw('ST_X(lokasi::geometry) as longitude'))
+                    ->whereId($id)
+                    ->get();
 
         return response()->json(['tanggal' => date('d-m-Y'), 'toko' => $toko]);
     }
