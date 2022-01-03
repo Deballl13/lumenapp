@@ -8,7 +8,7 @@ use App\Models\Toko;
 use Illuminate\Http\Request;
 use stdClass;
 
-class TokoController extends Controller {
+class NongskuyController extends Controller {
     
     public function index(){
         // mengambil list toko
@@ -26,6 +26,9 @@ class TokoController extends Controller {
     }
 
     public function populer(){
+        (double) $latitude = request()->query('latitude');
+        (double) $longitude = request()->query('longitude');
+        
         // mengambil list toko dari paling populer
         $populer = Review::select('toko.id', 'toko.gambar', 'toko.nama_toko', 'toko.alamat', 
                                 'toko.tipe', Review::raw('avg(review.rating) as rating'), Toko::raw('ST_Y(lokasi::geometry) as latitude'), Toko::raw('ST_X(lokasi::geometry) as longitude'))

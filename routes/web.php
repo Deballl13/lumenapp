@@ -22,10 +22,10 @@ $router->post('register','AuthController@register');
 $router->post('login','AuthController@login');
 
 // menu populer
-$router->get('toko', 'TokoController@index');
-$router->get('toko/populer', 'TokoController@populer');
-$router->get('toko/{id}', 'TokoController@show');
-$router->post('toko/search', 'TokoController@search');
+$router->get('toko', 'NongskuyController@index');
+$router->get('toko/populer', 'NongskuyController@populer');
+$router->get('toko/{id}', 'NongskuyController@show');
+$router->post('toko/search', 'NongskuyController@search');
 
 $router->group(['middleware' => 'auth'], function() use ($router){
     // konfigruasi akun

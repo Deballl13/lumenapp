@@ -15,6 +15,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     
     protected $fillable = ['nama', 'email', 'no_hp', 'password', 'token'];
     public $timestamps = false;
+    protected $hidden = ['id', 'password'];
 
     public function review(){
         return $this->hasMany(Review::class);
