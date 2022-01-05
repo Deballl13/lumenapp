@@ -26,6 +26,8 @@ $router->get('toko', 'NongskuyController@index');
 $router->get('toko/populer', 'NongskuyController@populer');
 $router->get('toko/{id}', 'NongskuyController@show');
 $router->post('toko/search', 'NongskuyController@search');
+$router->get('toko/{id}/menu', 'NongskuyController@menu');
+$router->get('toko/{id}/review', 'ReviewController@review');
 
 $router->group(['middleware' => 'auth'], function() use ($router){
     // konfigruasi akun

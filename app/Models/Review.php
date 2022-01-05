@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Casts\RatingCast;
+use App\Casts\DateCast;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,9 +11,10 @@ class Review extends Model {
 
     use HasFactory;
     protected $table = 'review';
-    protected $fillable = ['id_menu', 'id_jenis_promo', 'persentase', 'tanggal_mulai', 'durasi'];
+    protected $fillable = ['id_user', 'id_toko', 'komentar', 'tanggal', 'rating', 'gambar'];
     public $timestamps = false;
     protected $casts = [
+        'tanggal' => DateCast::class,
         'rating' => RatingCast::class,
     ];
 

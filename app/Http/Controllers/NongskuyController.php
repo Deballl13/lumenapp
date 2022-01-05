@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Menu;
 use App\Models\Review;
 use App\Models\Toko;
 use Illuminate\Http\Request;
@@ -74,5 +75,23 @@ class NongskuyController extends Controller {
 
         return response()->json($response);
     }
+
+    public function menu($id){
+
+        //cari data menu berdasarkan id toko
+        $menu = Menu::select('id', 'nama_menu', 'harga', 'gambar', 'status')
+                ->orderBy('status', 'DESC')
+                ->where('id_toko', $id)
+                ->get();
+
+        // build api response
+        $response = new stdClass();
+        $response->tanggal = date('d-m-Y');
+        $response->jumlah = $menu->count();
+        $response->menu = $menu; 
+
+        return response()->json($response);
+    }
+
 
 }
