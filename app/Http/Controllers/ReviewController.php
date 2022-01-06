@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Review;
-use App\Models\User;
 use stdClass;
 
 class ReviewController extends Controller {

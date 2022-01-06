@@ -9,15 +9,24 @@ use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller {
 
     public function register (Request $request) {
-        // insert data
-        User::create([
-            'nama' => htmlspecialchars(trim($request->nama)),
-            'email' => htmlspecialchars(trim($request->email)),
-            'no_hp' => htmlspecialchars(trim($request->no_hp)),
-            'password' => Hash::make(htmlspecialchars($request->password))
-        ]);
+        // cek data
+        $user = User::whereEmail(htmlspecialchars(trim($request->email)))->first();
 
-        return response()->json(['message' => 'Pendaftaran berhasil']);
+        // jika akun sudah ada
+        if(!$user){
+            User::create([
+                'nama' => htmlspecialchars(trim($request->nama)),
+                'email' => htmlspecialchars(trim($request->email)),
+                'no_hp' => htmlspecialchars(trim($request->no_hp)),
+                'password' => Hash::make(htmlspecialchars($request->password))
+            ]);
+
+            return response()->json(['message' => 'Pendaftaran berhasil']);
+        }
+        // jika akun belum ada
+        else{
+            return response()->json(['message' => 'Email kamu sudah terdaftar'], 400);
+        }        
     }
     
     public function login(Request $request) {
@@ -32,7 +41,7 @@ class AuthController extends Controller {
 
         // cek token null atau tidak
         if($user->token !== null){
-            return response()->json(['message' => 'Anda telah terhubung diperangkat lain'], 403);
+            return response()->json(['message' => 'Kamu telah terhubung diperangkat lain'], 403);
         }
 
         // generate token
