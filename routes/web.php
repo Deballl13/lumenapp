@@ -21,13 +21,12 @@ $router->get('/', function () use ($router) {
 $router->post('register','AuthController@register');
 $router->post('login','AuthController@login');
 
-// menu populer
+// nongskuy
 $router->get('toko', 'NongskuyController@index');
 $router->get('toko/populer', 'NongskuyController@populer');
 $router->get('toko/{id}', 'NongskuyController@show');
-$router->post('toko/search', 'NongskuyController@search');
 $router->get('toko/{id}/menu', 'NongskuyController@menu');
-$router->get('toko/{id}/review', 'ReviewController@review');
+$router->post('toko/search', 'NongskuyController@search');
 
 $router->group(['middleware' => 'auth'], function() use ($router){
     // konfigruasi akun
@@ -40,4 +39,7 @@ $router->group(['middleware' => 'auth'], function() use ($router){
 
     // pemesanan
     $router->get('pesan/riwayat', 'PesanController@riwayat');
+
+    // review
+    $router->get('toko/{id}/review', 'ReviewController@review');
 });

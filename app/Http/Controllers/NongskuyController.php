@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\JenisPromo;
 use App\Models\Menu;
 use App\Models\Review;
 use App\Models\Toko;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use phpDocumentor\Reflection\Types\Boolean;
 use stdClass;
 
 class NongskuyController extends Controller {
@@ -77,13 +80,32 @@ class NongskuyController extends Controller {
     }
 
     public function menu($id){
+        // cek status guest
+        $guest = (request()->query('guest') !== null) ? boolval(request()->query('guest')) : false;
+        $menu = null;
 
-        //cari data menu berdasarkan id toko
-        $menu = Menu::select('id', 'nama_menu', 'harga', 'gambar', 'status')
-                ->orderBy('status', 'DESC')
-                ->where('id_toko', $id)
-                ->get();
+        // jika guest adalah true
+        if($guest){
+            //cari data menu berdasarkan id toko
+            $menu = Menu::select('menu.id', 'menu.nama_menu', 'menu.harga', 'menu.gambar')
+                        ->where('menu.id_toko', $id)
+                        ->orderBy('status', 'DESC')
+                        ->get();
+        }
 
+        // jika bukan guest
+        else{
+            //cari data menu berdasarkan id toko
+            $menu = Menu::select('menu.id', 'menu.nama_menu', 'menu.harga', 'menu.gambar', 'menu.status', 
+                            DB::raw("CASE (promo.tanggal_mulai <= '".date('Y-m-d')."') AND (promo.tanggal_mulai + (promo.durasi-1)*INTERVAL '1 day' >= '".date('Y-m-d')."') WHEN true THEN nama_jenis_promo END as jenis_promo"),
+                            DB::raw("CASE (promo.tanggal_mulai <= '".date('Y-m-d')."') AND (promo.tanggal_mulai + (promo.durasi-1)*INTERVAL '1 day' >= '".date('Y-m-d')."') WHEN true THEN promo.persentase END as persentase"))
+                        ->leftJoin('promo', 'menu.id', '=', 'promo.id_menu')
+                        ->leftJoin('jenis_promo', 'promo.id_jenis_promo', '=', 'jenis_promo.id')
+                        ->where('menu.id_toko', $id)
+                        ->orderBy('status', 'DESC')
+                        ->get();
+        }
+            
         // build api response
         $response = new stdClass();
         $response->tanggal = date('d-m-Y');
