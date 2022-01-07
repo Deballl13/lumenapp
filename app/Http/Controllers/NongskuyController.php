@@ -3,13 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\JenisPromo;
 use App\Models\Menu;
 use App\Models\Review;
 use App\Models\Toko;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use phpDocumentor\Reflection\Types\Boolean;
 use stdClass;
 
 class NongskuyController extends Controller {
@@ -90,11 +88,12 @@ class NongskuyController extends Controller {
                         Toko::raw('cast(6371 * acos(cos( radians(ST_Y(lokasi::geometry))) 
                                 * cos( radians(?)) * cos( radians(?) - radians(ST_X(lokasi::geometry))) 
                                 + sin(radians(ST_Y(lokasi::geometry))) 
-                                * sin(radians(?))) as decimal(2,1)) as jarak'))
-                    ->where('nama_toko', 'ILIKE', "%{$keyword}%")
-                    ->setBindings([$latitude, $longitude, $latitude])
+                                * sin(radians(?))) as decimal(2,1)) as jarak')
+                                )
+                    ->where('nama_toko', 'ILIKE', '?')
+                    ->setBindings([$latitude, $longitude, $latitude, "%{$keyword}%"])
                     ->get();
-        
+                    
         // build api response
         $response = new stdClass();
         $response->tanggal = date('d-m-Y');
