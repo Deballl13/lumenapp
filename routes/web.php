@@ -22,11 +22,11 @@ $router->post('register','AuthController@register');
 $router->post('login','AuthController@login');
 
 // nongskuy
-$router->get('toko', 'NongskuyController@index');
-$router->get('toko/populer', 'NongskuyController@populer');
-$router->get('toko/{id}', 'NongskuyController@show');
-$router->get('toko/{id}/menu', 'NongskuyController@menu');
-$router->post('toko/search', 'NongskuyController@search');
+$router->get('nongskuy/terdekat', 'NongskuyController@terdekat');
+$router->get('nongskuy/populer', 'NongskuyController@populer');
+$router->get('nongskuy/{id}', 'NongskuyController@show');
+$router->get('nongskuy/{id}/menu', 'NongskuyController@menu');
+$router->post('nongskuy/search', 'NongskuyController@search');
 
 $router->group(['middleware' => 'auth'], function() use ($router){
     // konfigruasi akun
@@ -35,11 +35,11 @@ $router->group(['middleware' => 'auth'], function() use ($router){
     $router->put('ubahprofil', 'ProfilController@ubahProfil');
 
     // promo
-    $router->get('/promo', 'PromoController@index');
+    $router->get('promo', 'PromoController@index');
 
     // pemesanan
     $router->get('pesan/riwayat', 'PesanController@riwayat');
 
     // review
-    $router->get('toko/{id}/review', 'ReviewController@review');
+    $router->get('nongskuy/{id}/review', 'ReviewController@review');
 });

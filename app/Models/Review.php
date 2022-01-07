@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Casts\RatingCast;
 use App\Casts\DateCast;
+use App\Casts\DoubleCast;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,7 +15,7 @@ class Review extends Model {
     public $timestamps = false;
     protected $casts = [
         'tanggal' => DateCast::class,
-        'rating' => RatingCast::class,
+        'rating' => DoubleCast::class,
     ];
 
     public function user(){

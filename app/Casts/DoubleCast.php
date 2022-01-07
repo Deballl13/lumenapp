@@ -4,7 +4,7 @@ namespace App\Casts;
 
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 
-class RatingCast implements CastsAttributes
+class DoubleCast implements CastsAttributes
 {
     /**
      * Cast the given value.
@@ -17,7 +17,7 @@ class RatingCast implements CastsAttributes
      */
     public function get($model, string $key, $value, array $attributes)
     {
-        return $value===null?number_format((double) 0, 1, '.', ''):number_format((double) $value, 1, '.', '');
+        return $value===null?number_format(doubleval(0), 1, '.', ''):strval(round($value, 1, PHP_ROUND_HALF_UP));
     }
 
     /**
@@ -31,6 +31,6 @@ class RatingCast implements CastsAttributes
      */
     public function set($model, string $key, $value, array $attributes)
     {
-        return $value===null?number_format((double) 0, 1, '.', ''):number_format((double) $value, 1, '.', '');
+        return $value===null?number_format(doubleval(0), 1, '.', ''):strval(round($value, 1, PHP_ROUND_HALF_UP));
     }
 }
