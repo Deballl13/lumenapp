@@ -91,8 +91,8 @@ class NongskuyController extends Controller {
                                 * cos( radians(?)) * cos( radians(?) - radians(ST_X(lokasi::geometry))) 
                                 + sin(radians(ST_Y(lokasi::geometry))) 
                                 * sin(radians(?))) as decimal(2,1)) as jarak'))
-                    ->where('nama_toko', 'ILIKE', "%?%")
-                    ->setBindings([$latitude, $longitude, $latitude, $keyword])
+                    ->where('nama_toko', 'ILIKE', "%{$keyword}%")
+                    ->setBindings([$latitude, $longitude, $latitude])
                     ->get();
         
         // build api response
