@@ -112,7 +112,6 @@ class NongskuyController extends Controller {
 
         // jika bukan guest
         else{
-            DB::enableQueryLog();
             //cari data menu berdasarkan id toko
             $menu = Menu::select('menu.id', 'menu.nama_menu', 'menu.harga', 'menu.gambar', 'menu.status', 
                             DB::raw("CASE (promo.tanggal_mulai <= ?) AND (promo.tanggal_mulai + (promo.durasi-1)*INTERVAL '1 day' >= ?) WHEN true THEN nama_jenis_promo END as jenis_promo"),
@@ -123,8 +122,6 @@ class NongskuyController extends Controller {
                         ->orderBy('status', 'DESC')
                         ->setBindings([date('Y-m-d'), date('Y-m-d'), date('Y-m-d'), date('Y-m-d'), $id])
                         ->get();
-
-                    dd(DB::getQueryLog());
         }
             
         // build api response
