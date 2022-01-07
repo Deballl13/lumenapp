@@ -27,7 +27,12 @@ class NongskuyController extends Controller {
                                 * cos( radians(?)) * cos( radians(?) - radians(ST_X(lokasi::geometry))) 
                                 + sin(radians(ST_Y(lokasi::geometry))) 
                                 * sin(radians(?))) <= 5.0')
-                    ->setBindings([$latitude, $longitude, $latitude, $latitude, $longitude, $latitude])
+                    ->orderByRaw('6371 * acos(cos( radians(ST_Y(lokasi::geometry))) 
+                                * cos( radians(?)) * cos( radians(?) - radians(ST_X(lokasi::geometry))) 
+                                + sin(radians(ST_Y(lokasi::geometry))) 
+                                * sin(radians(?))) ASC')
+                    ->setBindings([$latitude, $longitude, $latitude, $latitude, 
+                                    $longitude, $latitude, $latitude, $longitude, $latitude])
                     ->get();
 
         // build api response
