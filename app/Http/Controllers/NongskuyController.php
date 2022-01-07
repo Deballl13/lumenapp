@@ -19,7 +19,7 @@ class NongskuyController extends Controller {
         (double) $longitude = request()->query('longitude');
         
         // mengambil list toko terdekat
-        $toko = Toko::select('id', 'gambar', 'nama_toko', 'alamat', 'tipe', 'no_hp', 'ig', 'web', 'hari_ops', 'fasilitas',
+        $toko = Toko::select('id', 'gambar', 'nama_toko', 'alamat', 'tipe', 
                         Toko::raw('ST_Y(lokasi::geometry) as latitude'), Toko::raw('ST_X(lokasi::geometry) as longitude'), 
                         Toko::raw('cast(6371 * acos(cos( radians(ST_Y(lokasi::geometry))) 
                                 * cos( radians(?)) * cos( radians(?) - radians(ST_X(lokasi::geometry))) 
@@ -78,13 +78,21 @@ class NongskuyController extends Controller {
     }
 
     public function search(Request $request){
+        (double) $latitude = request()->query('latitude');
+        (double) $longitude = request()->query('longitude');
+
         // ambil keyword
         $keyword = htmlspecialchars(trim($request->keyword));
         
         // cari data berdasarkan keyword dan case insensitive
-        $toko = Toko::select('id', 'gambar', 'nama_toko', 'alamat', 'tipe', 'no_hp', 'ig', 'web', 'hari_ops', 'fasilitas',
-                        Toko::raw('ST_Y(lokasi::geometry) as latitude'), Toko::raw('ST_X(lokasi::geometry) as longitude'))
-                    ->where('nama_toko', 'ILIKE', "%{$keyword}%")
+        $toko = Toko::select('id', 'gambar', 'nama_toko', 'alamat', 'tipe', 
+                        Toko::raw('ST_Y(lokasi::geometry) as latitude'), Toko::raw('ST_X(lokasi::geometry) as longitude'),
+                        Toko::raw('cast(6371 * acos(cos( radians(ST_Y(lokasi::geometry))) 
+                                * cos( radians(?)) * cos( radians(?) - radians(ST_X(lokasi::geometry))) 
+                                + sin(radians(ST_Y(lokasi::geometry))) 
+                                * sin(radians(?))) as decimal(2,1)) as jarak'))
+                    ->where('nama_toko', 'ILIKE', "%?%")
+                    ->setBindings([$latitude, $longitude, $latitude, $keyword])
                     ->get();
         
         // build api response
