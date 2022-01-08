@@ -11,6 +11,10 @@ class Menu extends Model {
     protected $table = 'menu';
     protected $fillable = ['id_toko', 'nama_menu', 'harga', 'gambar', 'status'];
     public $timestamps = false;
+    protected $casts = [
+        'id' => IntegerCast::class,
+        'id_toko' => IntegerCast::class,
+    ];
 
     public function toko(){
         return $this->belongsTo(Toko::class);

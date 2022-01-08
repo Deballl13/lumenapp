@@ -14,6 +14,9 @@ class Review extends Model {
     protected $fillable = ['id_user', 'id_toko', 'komentar', 'tanggal', 'rating', 'gambar'];
     public $timestamps = false;
     protected $casts = [
+        'id' => IntegerCast::class,
+        'id_user' => IntegerCast::class,
+        'id_toko' => IntegerCast::class,
         'tanggal' => DateCast::class,
         'rating' => DoubleCast::class,
     ];

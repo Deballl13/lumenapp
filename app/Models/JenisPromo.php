@@ -9,8 +9,11 @@ class JenisPromo extends Model {
 
     use HasFactory;
     protected $table = 'jenis_promo';
-    protected $fillable = 'nama';
+    protected $fillable = 'nama_jenis_promo';
     public $timestamps = false;
+    protected $casts = [
+        'id' => IntegerCast::class,
+    ];
 
     public function promo(){
         return $this->hasMany(JenisPromo::class);
