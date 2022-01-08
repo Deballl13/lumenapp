@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\IntegerCast;
 use App\Casts\DateCast;
 use App\Casts\TimeCast;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -18,6 +19,7 @@ class Pemesanan extends Model {
         'id_user' => IntegerCast::class,
         'id_metode_bayar_toko' => IntegerCast::class,
         'jumlah_kursi' => IntegerCast::class,
+        'dp' => IntegerCast::class,
         'tanggal' => DateCast::class,
         'waktu' => TimeCast::class,
     ];

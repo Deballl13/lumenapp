@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\IntegerCast;
 use App\Casts\DateCast;
 use App\Casts\DoubleCast;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\IntegerCast;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,7 +16,9 @@ class Promo extends Model {
         'id' => IntegerCast::class,
         'id_menu' => IntegerCast::class,
         'id_jenis_promo' => IntegerCast::class,
+        'persentase' => IntegerCast::class,
         'tanggal_mulai' => DateCast::class,
+        'durasi' => IntegerCast::class,
     ];
 
     public function jenisPromo(){
