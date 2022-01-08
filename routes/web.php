@@ -28,6 +28,9 @@ $router->get('nongskuy/{id}', 'NongskuyController@show');
 $router->get('nongskuy/{id}/menu', 'NongskuyController@menu');
 $router->post('nongskuy/search', 'NongskuyController@search');
 
+// review
+$router->get('nongskuy/{id}/review', 'ReviewController@review');
+
 $router->group(['middleware' => 'auth'], function() use ($router){
     // konfigruasi akun
     $router->post('logout', 'AuthController@logout');
@@ -39,7 +42,4 @@ $router->group(['middleware' => 'auth'], function() use ($router){
 
     // pemesanan
     $router->get('pesan/riwayat', 'PesanController@riwayat');
-
-    // review
-    $router->get('nongskuy/{id}/review', 'ReviewController@review');
 });
