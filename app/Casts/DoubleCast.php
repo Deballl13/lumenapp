@@ -17,7 +17,7 @@ class DoubleCast implements CastsAttributes
      */
     public function get($model, string $key, $value, array $attributes)
     {
-        return $value===null?number_format(doubleval(0), 1, '.', ''):strval(round($value, 1, PHP_ROUND_HALF_UP));
+        return $value===null?number_format(doubleval(0), 1, '.', ''):number_format(strval(round($value, 1, PHP_ROUND_HALF_UP)), 1, '.', '');        ;
     }
 
     /**
@@ -31,6 +31,6 @@ class DoubleCast implements CastsAttributes
      */
     public function set($model, string $key, $value, array $attributes)
     {
-        return $value===null?number_format(doubleval(0), 1, '.', ''):strval(round($value, 1, PHP_ROUND_HALF_UP));
+        return $value===null?number_format(doubleval(0), 1, '.', ''):number_format(strval(round($value, 1, PHP_ROUND_HALF_UP)), 1, '.', '');
     }
 }
