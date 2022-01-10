@@ -42,4 +42,7 @@ $router->group(['middleware' => 'auth'], function() use ($router){
 
     // pemesanan
     $router->get('pesan/riwayat', 'PesanController@riwayat');
+
+    //metode pembayaran nongskuy
+    $router->get('nongskuy/{id}/metodebayar', 'NongskuyController@metodeBayar');
 });
