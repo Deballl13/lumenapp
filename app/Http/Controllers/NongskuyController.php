@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Menu;
 use App\Models\Review;
 use App\Models\Toko;
-use App\Models\MetodePembayaranToko;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use stdClass;
@@ -111,7 +110,7 @@ class NongskuyController extends Controller {
 
     public function menu($id){
         // cek status guest
-        $guest = (request()->query('guest') !== null) ? boolval(request()->query('guest')) : false;
+        $guest = (request()->query('guest') !== null) ? filter_var(request()->query('guest'), FILTER_VALIDATE_BOOLEAN) : false;
         $menu = null;
 
         // jika guest adalah true
@@ -119,20 +118,20 @@ class NongskuyController extends Controller {
             //cari data menu berdasarkan id toko
             $menu = Menu::select('menu.id', 'menu.nama_menu', 'menu.harga', 'menu.gambar')
                         ->where('menu.id_toko', $id)
-                        ->orderBy('status', 'DESC')
+                        ->orderBy('menu.status', 'DESC')
                         ->get();
         }
 
         // jika bukan guest
         else{
             //cari data menu berdasarkan id toko
-            $menu = Menu::select('menu.id', 'menu.nama_menu', 'menu.harga', 'menu.gambar', 'menu.status', 
+            $menu = Menu::select('menu.id', 'menu.nama_menu', 'menu.harga', 'menu.gambar',
                             DB::raw("CASE (promo.tanggal_mulai <= ?) AND (promo.tanggal_mulai + (promo.durasi-1)*INTERVAL '1 day' >= ?) WHEN true THEN nama_jenis_promo END as jenis_promo"),
                             DB::raw("CASE (promo.tanggal_mulai <= ?) AND (promo.tanggal_mulai + (promo.durasi-1)*INTERVAL '1 day' >= ?) WHEN true THEN promo.persentase END as persentase"))
                         ->leftJoin('promo', 'menu.id', '=', 'promo.id_menu')
                         ->leftJoin('jenis_promo', 'promo.id_jenis_promo', '=', 'jenis_promo.id')
                         ->where('menu.id_toko', '?')
-                        ->orderBy('status', 'DESC')
+                        ->orderBy('menu.status', 'DESC')
                         ->setBindings([date('Y-m-d'), date('Y-m-d'), date('Y-m-d'), date('Y-m-d'), $id])
                         ->get();
         }
@@ -142,23 +141,6 @@ class NongskuyController extends Controller {
         $response->tanggal = date('d-m-Y');
         $response->jumlah = $menu->count();
         $response->menu = $menu; 
-
-        return response()->json($response);
-    }
-
-    public function metodeBayar($id){
-        //mengambil data metode bayar nongskuy
-        $metodeBayar = MetodePembayaranToko::select('metode_pembayaran_toko.id', 'metode_pembayaran.nama_metode_pembayaran', 
-                                                    'metode_pembayaran_toko.no_rek') 
-                                            ->join('metode_pembayaran', 'metode_pembayaran.id', '=', 'metode_pembayaran_toko.id_metode_bayar')
-                                            ->where('metode_pembayaran_toko.id_toko', $id)
-                                            ->get();
-
-        // build api response
-        $response = new stdClass();
-        $response->tanggal = date('d-m-Y');
-        $response->jumlah = $metodeBayar->count();
-        $response->metode_bayar = $metodeBayar; 
 
         return response()->json($response);
     }
