@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Menu;
 use App\Models\Review;
 use App\Models\Toko;
+use App\Models\MetodePembayaranToko;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use stdClass;
@@ -145,5 +146,21 @@ class NongskuyController extends Controller {
         return response()->json($response);
     }
 
+    public function metodeBayar($id){
+        //mengambil data metode bayar nongskuy
+        $metodeBayar = MetodePembayaranToko::select('metode_pembayaran_toko.id', 'metode_pembayaran.nama_metode_pembayaran', 
+                                                    'metode_pembayaran_toko.no_rek') 
+                                            ->join('metode_pembayaran', 'metode_pembayaran.id', '=', 'metode_pembayaran_toko.id_metode_bayar')
+                                            ->where('metode_pembayaran_toko.id_toko', $id)
+                                            ->get();
+
+        // build api response
+        $response = new stdClass();
+        $response->tanggal = date('d-m-Y');
+        $response->jumlah = $metodeBayar->count();
+        $response->metode_bayar = $metodeBayar; 
+
+        return response()->json($response);
+    }
 
 }
