@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Review;
+use Illuminate\Http\Request;
 use stdClass;
 
 class ReviewController extends Controller {
@@ -23,5 +24,26 @@ class ReviewController extends Controller {
         $response->review = $review;
 
         return response()->json($response);
+    }
+
+    public function addReview($id, Request $request){
+        //get id_user
+        $id_user = auth()->guard('api')->user()->id;
+
+        if($id_user){
+            Review::create([
+                'id_user' => $id_user,
+                'id_toko' => $id,
+                'rating' => $request->rating,
+                'komentar' => htmlspecialchars($request->komentar),
+                'tanggal' => date('Y-m-d')
+            ]);
+
+            return response()->json(['message' => 'Anda Berhasil Menambahkan Review!']);
+        }
+        // jika akun belum ada
+        else{
+            return response()->json(['message' => 'User ID Tidak Didapatkan'], 400);
+        }        
     }
 }

@@ -45,4 +45,6 @@ $router->group(['middleware' => 'auth'], function() use ($router){
 
     //metode pembayaran nongskuy
     $router->get('nongskuy/{id}/metodebayar', 'NongskuyController@metodeBayar');
+
+    $router->post('nongskuy/{id}/review', 'ReviewController@addReview');
 });
