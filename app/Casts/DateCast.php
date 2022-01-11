@@ -17,7 +17,7 @@ class DateCast implements CastsAttributes
      */
     public function get($model, string $key, $value, array $attributes)
     {
-        return date('d-m-Y', strtotime($value));
+        return date('Y-m-d', strtotime($value));
     }
 
     /**
@@ -31,6 +31,6 @@ class DateCast implements CastsAttributes
      */
     public function set($model, string $key, $value, array $attributes)
     {
-        return date('d-m-Y', strtotime($value));
+        return date('Y-m-d', strtotime($value));
     }
 }
